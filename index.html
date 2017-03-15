@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="invertedIndex">
+	<head>
+		<title>Inverted Index | Home</title>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href ="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous">
+
+	    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	</head>
+	
+	<body ng-controller="inverted_controller">
+		<nav class="navbar navbar-inverse" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Inverted Index</a>
+				</div>
+				<form class="navbar-form navbar-right" role="search">
+					<select class="form-control input-sm select-option" ng-model="title">
+		                <option value="" selected disabled>Please select a file</option>
+		                <option ng-repeat="title in fileTitles" value="{{title}}">
+		                {{title}}
+		                </option>
+		                <option ng-show="fileTitles.length > 1" value="all">all</option>
+		            </select>
+
+				    <div class="input-group" ng-submit="search()">
+				      <input class="form-control input-sm" placeholder="Search" name="srch-term" id="srch-term" type="text" ng-model="query">
+				      <!--<div class="input-group-btn">
+				        <button class="btn btn-primary btn-sm" type="submit" ng-click="search()"><i class="glyphicon glyphicon-search"></i></button>
+				      </div>-->
+				    </div>
+				</form>
+				
+			</div>
+		</nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 text-center">
+					<h3>Upload files to create index</h3>
+					<label href="#" class="btn btn-success btn-block"><i class="fa fa-upload"></i> Upload file<input type="file" style="display:none;" id="json-file" multiple></label>
+					<br>
+					<p class="text-warning notice" ng-show="fileTitles.length < 1">Note: Please make sure to upload a JSON file</p>
+					<br>
+					<!-- container for file index buttons-->
+					<h4 class="text-success">File upload details</h4>
+					<div class="col-md-12" ng-show="showButton">
+	                    <form class="form">
+	                        <div>
+	                        	<div class="input-group">
+							      	<select class="form-control select-option" ng-model="title">
+						                <option value="" selected disabled>Please select a file</option>
+						                <option ng-repeat="title in fileTitles" value="{{title}}">
+						                {{title}}
+						                </option>
+						                <option ng-show="fileTitles.length > 1" value="all">all</option>
+					            	</select>
+							      	<span class="input-group-btn">
+							        	<button type="submit" class="btn btn-primary" ng-click="createIndex(title)">Generate Index</button>
+							      	</span>
+							    </div>
+	                        </div>
+	                    </form>
+	                </div>
+	                
+	                <!-- usage instruction pane -->
+	                <h4 class="text-success pad">Usage Instructions</h4>
+	                <div></div>
+				</div>
+				<div class="col-md-8">
+					<h3>Table of Index <i class="fa fa-table" aria-hidden="true"></i></h3>
+					<table class="table" ng-repeat="(filetitle, result) in currentIndex">
+	                    <thead>
+	                        
+	                        <tr>
+	                            <th>File: {{1 + 1}}</th>
+	                            <th ng-repeat="i in documentCounter[filetitle]">Document {{i+1}}
+	                                <i class="fa fa-table" aria-hidden="true"></i>
+	                            </th>
+	                            </span>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                       <tr ng-repeat="(key,value) in result">
+	                            <td>{{key}}</td>
+	                            <td ng-repeat="i in documentCounter[filetitle]">
+	                                <span ng-repeat="val in value">
+	                                    <span ng-if="i==val"><i class="fa fa-check" aria-hidden="true"></i></span>
+	                                </span>
+	                            </td>
+	                        </tr>
+	                    </tbody>
+	                </table>
+				</div>
+			</div>
+		</div>
+
+		<script src="ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	    <script src="maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <script src="code.angularjs.org/1.5.1/angular.min.js"></script>
+	    <script src="src/inverted.js"></script>
+	    <script src="src/server.js"></script>
+	</body>
+</html>
