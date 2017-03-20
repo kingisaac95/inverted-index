@@ -3,104 +3,189 @@
 	<head>
 		<title>Inverted Index | Home</title>
 		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href ="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"rel="stylesheet">
-		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous">
-
-	    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+	  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	  <link rel="stylesheet" href="./app/css/styles.css">
 	</head>
 	
-	<body ng-controller="inverted_controller">
-		<nav class="navbar navbar-inverse" role="navigation">
+	<body ng-controller="ivController">
+		<nav class="navbar navbar-inverse" role="navigation" style="border-radius: 0">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="#">Inverted Index</a>
 				</div>
-				<form class="navbar-form navbar-right" role="search">
-					<select class="form-control input-sm select-option" ng-model="title">
-		                <option value="" selected disabled>Please select a file</option>
-		                <option ng-repeat="title in fileTitles" value="{{title}}">
-		                {{title}}
-		                </option>
-		                <option ng-show="fileTitles.length > 1" value="all">all</option>
-		            </select>
-
-				    <div class="input-group" ng-submit="search()">
-				      <input class="form-control input-sm" placeholder="Search" name="srch-term" id="srch-term" type="text" ng-model="query">
-				      <!--<div class="input-group-btn">
-				        <button class="btn btn-primary btn-sm" type="submit" ng-click="search()"><i class="glyphicon glyphicon-search"></i></button>
-				      </div>-->
-				    </div>
-				</form>
-				
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a href="" data-toggle="modal" data-target="#about">What is this?</a></li>
+						<li><a href="" data-toggle="modal" data-target="#help">Usage guide</a></li>
+					</ul>
+				</div>
 			</div>
 		</nav>
+		<!--<button class="btn btn-primary" ng-click="createIndex()">Get index</button>-->
+
 		<div class="container">
+			<div class="jumbotron text-center">
+				<h3>Hi, please upload a file to continue</h3>
+				<h5 class="text-warning">Note: Please make sure to upload a valid JSON file (See Usage Guide)</h5>
+				<label href="#" class="btn btn-success"><i class="fa fa-upload"></i> 
+				  Upload file<input type="file" id="file-input" style="display: none" multiple>
+			    </label>
+			</div>
 			<div class="row">
 				<div class="col-md-4 text-center">
-					<h3>Upload files to create index</h3>
-					<label href="#" class="btn btn-success btn-block"><i class="fa fa-upload"></i> Upload file<input type="file" style="display:none;" id="json-file" multiple></label>
-					<br>
-					<p class="text-warning notice" ng-show="fileTitles.length < 1">Note: Please make sure to upload a JSON file</p>
-					<br>
-					<!-- container for file index buttons-->
 					<h4 class="text-success">File upload details</h4>
-					<div class="col-md-12" ng-show="showButton">
-	                    <form class="form">
-	                        <div>
-	                        	<div class="input-group">
-							      	<select class="form-control select-option" ng-model="title">
-						                <option value="" selected disabled>Please select a file</option>
-						                <option ng-repeat="title in fileTitles" value="{{title}}">
-						                {{title}}
-						                </option>
-						                <option ng-show="fileTitles.length > 1" value="all">all</option>
-					            	</select>
-							      	<span class="input-group-btn">
-							        	<button type="submit" class="btn btn-primary" ng-click="createIndex(title)">Generate Index</button>
-							      	</span>
-							    </div>
-	                        </div>
-	                    </form>
-	                </div>
-	                
-	                <!-- usage instruction pane -->
-	                <h4 class="text-success pad">Usage Instructions</h4>
-	                <div></div>
+					<div class="col-md-12" style="margin-bottom: 20px">
+							<form class="form">
+										<!--<p class="text-warning">Please select a file to index.</p>-->
+										<div class="input-group input-sm">
+											<select class="form-control select-option" id="selectedFile">
+														<option selected disabled>-- select a file to index --</option>
+														<option ng-repeat="fileName in fileNames"> {{ fileName }} </option>
+											</select>
+											<span class="input-group-btn">
+												<button id="getIndex" type="submit" class="btn btn-success">Get Index</button>
+											</span>
+									</div>
+							</form>
+					</div>
+
+					<h4 class="text-success">Search indices</h4>
+					<!--<p class="text-warning">Please select a file to search.</p>-->
+					<div class="col-md-12">
+						<form class="form" role="search">
+							<select class="form-control" style="width: 100%">
+								<option value="all" selected>All</option>
+								<option ng-repeat="(file, value) in indexedFiles"> {{ file }} </option>
+							</select>
+							<h1></h1>
+							<input class="form-control" placeholder="Search" name="srch-term"
+								id="srch-term" type="text" ng-model="query"  style="width: 100%">
+						</form>
+					</div>
 				</div>
 				<div class="col-md-8">
-					<h3>Table of Index <i class="fa fa-table" aria-hidden="true"></i></h3>
-					<table class="table" ng-repeat="(filetitle, result) in currentIndex">
-	                    <thead>
-	                        
-	                        <tr>
-	                            <th>File: {{1 + 1}}</th>
-	                            <th ng-repeat="i in documentCounter[filetitle]">Document {{i+1}}
-	                                <i class="fa fa-table" aria-hidden="true"></i>
-	                            </th>
-	                            </span>
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-	                       <tr ng-repeat="(key,value) in result">
-	                            <td>{{key}}</td>
-	                            <td ng-repeat="i in documentCounter[filetitle]">
-	                                <span ng-repeat="val in value">
-	                                    <span ng-if="i==val"><i class="fa fa-check" aria-hidden="true"></i></span>
-	                                </span>
-	                            </td>
-	                        </tr>
-	                    </tbody>
-	                </table>
+					<h3 class="text-center"><i class="fa fa-table" aria-hidden="true"></i> Table of Indices</h3>
+					<div style="height: 350px; overflow: auto;">
+						<table class="table table-striped table-hover table-bordered" ng-if="show">
+							<thead>
+								<tr>
+									<th>Words</th>
+									<th ng-repeat="title in titles">{{ title }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="(key, index) in indices track by $index">
+									<td> {{ key }} </td>
+									<td ng-repeat="value in documentCount track by $index">
+										<span>
+											<span><i ng-class="index.includes(value) ? 'fa-check text-success' : 'fa-close text-danger'" class="fa" aria-hidden="true"></i></span>
+										</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal What is this -->
+			<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header bg-success">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Inverted Index</h4>
+						</div>
+						<div class="modal-body">
+							
+							<h4 class="text-success">Elasticsearch</h4>
+							<p>Elasticsearch uses a structure called an inverted index, which is designed to allow very fast full-text searches. An inverted index consists of a list of all the unique words that appear in any document, and for each word, a list of the documents in which it appears.
+							For example, let’s say we have two documents, each with a content field containing the following:</p>
+							<ol type="1">
+								<li>The quick brown fox jumped over the lazy dog</li>
+								<li>uick brown foxes leap over lazy dogs in summer</li>
+							</ol>
+							<p>create an inverted index, we first split the content field of each document into separate words (which we call terms, or tokens), create a sorted list of all the unique terms, and then list in which document each term appears. The result looks something like this:</p>
+<pre>
+Term      Doc_1  Doc_2
+-------------------------
+Quick   |       |  X
+The     |   X   |
+brown   |   X   |  X
+dog     |   X   |
+dogs    |       |  X
+fox     |   X   |
+foxes   |       |  X
+in      |       |  X
+jumped  |   X   |
+lazy    |   X   |  X
+leap    |       |  X
+over    |   X   |  X
+quick   |   X   |
+summer  |       |  X
+the     |   X   |
+------------------------
+</pre>						
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success" data-dismiss="modal">Gotten!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal Hep -->
+			<div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header bg-success">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Inverted Index - Usage guide</h4>
+						</div>
+						<div class="modal-body">
+							<h4 class="text-success">How to use</h4>
+							<ol type="1">
+								<li>Upload JSON file by clicking "Upload file" button and selecting a valid JSON in your disposition</li>
+								<li>In the left corner under "File upload details", select file to index and click on "Get Index"</li>
+								<li>In the left corner under "Search indices", select the file to search or select "All" to search all 
+									indexed filed, the type in your search word(s) in the search field.</li>
+							</ol>
+							
+							<h4 class="text-success">Valid Document Structure</h4>
+							<p>A valid JSON file for testing this application must be structured similar to the document below:</p>
+<pre>
+[
+  {
+    "title": "Alice in Wonderland",
+    "text": "Alice falls into a rabbit hole and enters a world full of imagination."
+  }
+]
+</pre>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success" data-dismiss="modal">Gotten!</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+		<div class="container-fluid bg-success padded">
+			<div class="footer text-center">
+				<p class="footer-text">&copy; 2017 Inverted Index</p>
+			</div>
+		</div>
 
-		<script src="ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	    <script src="maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	    <script src="code.angularjs.org/1.5.1/angular.min.js"></script>
-	    <script src="src/inverted.js"></script>
-	    <script src="src/server.js"></script>
+		<script src="https://code.angularjs.org/1.5.1/angular.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+		<script src="app/class/invertedIndexClass.js"></script>
+		<script src="app/controllers/controller.js"></script>
 	</body>
 </html>

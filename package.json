@@ -1,0 +1,44 @@
+{
+  "name": "inverted-index",
+  "version": "1.0.0",
+  "description": "Inverted index application using elastic search",
+  "main": "index.js",
+  "dependencies": {
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "gulp-uglify": "^2.0.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "browserify": "^14.1.0",
+    "browsify": "0.0.4",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsdoc": "^2.4.0",
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-uglify": "^2.0.1",
+    "gulp-util": "^3.0.8",
+    "install": "^0.8.7",
+    "npm": "^4.4.1",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.9.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./app/controllers/controllers.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-korjiewuru/inverted-index.git"
+  },
+  "keywords": [],
+  "author": "Orjiewuru Kingdom Isaac",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela-korjiewuru/inverted-index/issues"
+  },
+  "homepage": "https://github.com/andela-korjiewuru/inverted-index#readme"
+}
