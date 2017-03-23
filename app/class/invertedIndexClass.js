@@ -36,11 +36,9 @@ class InvertedIndex {
    * @returns {Object} indexes
   */
   createIndex(fileName, file) {
-    // console.log(file)
     if (!file) { return false; }
     const words = [];
     const indexedWords = {};
-    // file = JSON.parse(file);
     file.forEach((book) => {
       words.push(this.tokenize(book));
     });
@@ -76,28 +74,40 @@ class InvertedIndex {
   /**
    * Search Index
    * @function
-   * @param {string} query string being searched
-   * @return {Object} search result is returned
+  * @param {String} fileName uploaded valid JSON file
+  * @param {String} query word(s) or terms to search for
+  * @returns {Object} Returns result of searched index.
   */
-  searchFunction(query, filter) {
-    const searchResult = {};
-    const allSearchQuery = query.toLowerCase()
-    .match(/\w+/g);
-    // let searchResultKey = {};
-    if (filter === 'All') {
-      Object.keys(this.indices).forEach((keys) => {
-        Object.keys(allSearchQuery).forEach((query) => {
-          if (this.indices[keys][allSearchQuery[query]]) {
-            searchResult[allSearchQuery[query]] =
-              this.indices[keys][allSearchQuery[query]];
-          } else {
-            searchResult[allSearchQuery[query]] = 'not found';
-          }
-        });
-      });
+  searchIndices(fileName, query) {
+    const searchResults = [];
+    const result = {};
+    let indices = {};
+    if (this.getIndices(fileName)) {
+      indices[fileName] = this.getIndices(fileName);
+    } else {
+      indices = this.indices;
     }
-    return searchResult;
+    Object.keys(indices).forEach((book) => {
+      query.split(' ').forEach((word) => {
+        if (Object.prototype.hasOwnProperty.call(indices[book], word)) {
+          if (!Object.prototype.hasOwnProperty.call(result, book)) {
+            result[book] = {
+              terms: {},
+              // count: indices[book].count,
+              fileName: book
+            };
+          }
+          result[book].terms[word] = indices[book][word];
+        }
+      });
+      searchResults.push(result[book]);
+    });
+    if (typeof searchResults[0] === 'undefined') {
+      return false;
+    }
+    return searchResults;
   }
+
 
   /**
    * runs all validation checks
@@ -119,11 +129,6 @@ class InvertedIndex {
     } else isValid = false;
     return isValid;
   }
-
-  /**
-   * validate file ! do this on the frontend
-   * return file.toLowerCase().match(/\.json$/);
-  */
 
   /**
    * remove duplicates from word array
@@ -165,12 +170,12 @@ class InvertedIndex {
   */
   tokenize(text) {
     let tokens = [];
-      tokens = this.formatJSON(text)
+    tokens = this.formatJSON(text)
       .trim()
       .toLowerCase()
       .match(/\w+/g)
       .sort();
-      tokens = this.getUnique(tokens);
+    tokens = this.getUnique(tokens);
     return tokens;
   }
 }
