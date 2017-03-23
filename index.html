@@ -13,7 +13,7 @@
 	  <link rel="stylesheet" href="./app/css/styles.css">
 	</head>
 	
-	<body ng-controller="ivController">
+	<body ng-controller="mainController">
 		<nav class="navbar navbar-inverse" role="navigation" style="border-radius: 0">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -47,10 +47,10 @@
 										<div class="input-group input-sm">
 											<select class="form-control select-option" id="selectedFile">
 														<option selected disabled>-- select a file to index --</option>
-														<option ng-repeat="fileName in fileNames"> {{ fileName }} </option>
+														<option ng-repeat="file in fileNames" > {{ file }} </option>
 											</select>
 											<span class="input-group-btn">
-												<button id="getIndex" type="submit" class="btn btn-success">Get Index</button>
+												<button id="getIndex" type="submit" class="btn btn-success" ng-click="createIndex()">Get Index</button>
 											</span>
 									</div>
 							</form>
@@ -60,38 +60,38 @@
 					<!--<p class="text-warning">Please select a file to search.</p>-->
 					<div class="col-md-12">
 						<form class="form" role="search">
-							<select class="form-control" style="width: 100%">
+							<select class="form-control" style="width: 100%" id="selectedBook">
 								<option value="all" selected>All</option>
-								<option ng-repeat="(file, value) in indexedFiles"> {{ file }} </option>
+								<option ng-repeat="(file, value) in indices"> {{ file }} </option>
 							</select>
 							<h1></h1>
-							<input class="form-control" placeholder="Search" name="srch-term"
-								id="srch-term" type="text" ng-model="query"  style="width: 100%">
+							<input class="form-control" placeholder="Search" id="search-query"
+							type="text" style="width: 100%" ng-keyup="searchIndices()" ng-if="show">
 						</form>
 					</div>
 				</div>
 				<div class="col-md-8">
 					<h3 class="text-center"><i class="fa fa-table" aria-hidden="true"></i> Table of Indices</h3>
-					<div style="height: 350px; overflow: auto;">
-						<table class="table table-striped table-hover table-bordered" ng-if="show">
-							<thead>
-								<tr>
-									<th>Words</th>
-									<th ng-repeat="title in titles">{{ title }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="(key, index) in indices track by $index">
-									<td> {{ key }} </td>
-									<td ng-repeat="value in documentCount track by $index">
-										<span>
-											<span><i ng-class="index.includes(value) ? 'fa-check text-success' : 'fa-close text-danger'" class="fa" aria-hidden="true"></i></span>
-										</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+						<div style="height: 350px; overflow: auto;">
+							<table ng-repeat="indices in currentIndices track by $index" class="table table-striped table-hover table-bordered" ng-if="show">
+								<thead>
+									<tr>
+										<th>Words</th>
+										<th ng-repeat="title in currentTitle[indices.fileName]">{{ title }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="(key, index) in indices.terms track by $index">
+										<td> {{ key }} </td>
+										<td ng-repeat="value in range(currentTitle[indices.fileName].length - 1) track by $index">
+											<span>
+												<span><i ng-class="index.includes(value) ? 'fa-check text-success' : 'fa-close text-danger'" class="fa" aria-hidden="true"></i></span>
+											</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 				</div>
 			</div>
 
@@ -175,7 +175,7 @@ the     |   X   |
 				</div>
 			</div>
 		</div>
-		<div class="container-fluid bg-success padded">
+		<div class="container-fluid bg-success padded" style="margin-top: 40px">
 			<div class="footer text-center">
 				<p class="footer-text">&copy; 2017 Inverted Index</p>
 			</div>
