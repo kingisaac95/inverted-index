@@ -127,7 +127,6 @@ app.controller('mainController', ['$scope', ($scope) => {
       }
     }
     $scope.currentIndices = invertedIndex.searchIndices(filter, searchQuery);
-    console.log($scope.currentIndices);
   };
 
   $scope.range = (length) => {

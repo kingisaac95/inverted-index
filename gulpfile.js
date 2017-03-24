@@ -1,37 +1,43 @@
 const gulp = require('gulp');
-const gUtil = require('gulp-util');
-const source = require('vinyl-source-stream');
-const browserify = require('browserify');
-const watchify = require('watchify');
-const browserSync = require('browser-sync').create();
+const connect = require('gulp-connect');
+const open = require('gulp-open');
 
-function bundle(bundler) {
-  return bundler
-    .bundle()
-    .on('error', (e) => {
-      gUtil.log(e);
-    })
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./app/build/js'))
-    .pipe(browserSync.stream());
-}
+const htmlSource = './index.html';
+const cssSource = './app/css/*.css';
+const jsSource = './app/controllers/controller.js';
 
-gulp.task('watch', () => {
-  const watcher = watchify(browserify('./app/controllers/controller.js',
-  watchify.args));
-  bundle(watcher);
-  watcher.on('update', () => {
-    bundle(watcher);
-  });
-  watcher.on('log', gUtil.log);
-
-  browserSync.init({
-    server: './',
-    files: './*.html',
-    logFileChanges: false
+gulp.task('connect', () => {
+  connect.server({
+    root: ['./'],
+    port: 1337,
+    livereload: true,
   });
 });
 
-gulp.task('js', () => (
-  bundle(browserify('./app/**/*.js'))
-));
+gulp.task('open', () => {
+  gulp.src(__filename)
+  .pipe(open({ uri: 'http://localhost:1337' }));
+});
+
+gulp.task('html', () => {
+  gulp.src(htmlSource)
+  .pipe(connect.reload());
+});
+
+gulp.task('css', () => {
+  gulp.src(cssSource)
+  .pipe(connect.reload());
+});
+
+gulp.task('js', () => {
+  gulp.src(jsSource)
+  .pipe(connect.reload());
+});
+
+gulp.task('watch', () => {
+  gulp.watch(htmlSource, ['html']);
+  gulp.watch(cssSource, ['css']);
+  gulp.watch(jsSource, ['js']);
+});
+
+gulp.task('default', ['html', 'css', 'js', 'open', 'connect', 'watch']);

@@ -17,17 +17,13 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsdoc": "^2.4.0",
     "gulp": "^3.9.1",
-    "gulp-browserify": "^0.5.1",
     "gulp-connect": "^5.0.0",
-    "gulp-uglify": "^2.0.1",
-    "gulp-util": "^3.0.8",
+    "gulp-open": "^2.0.0",
     "install": "^0.8.7",
     "npm": "^4.4.1",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.9.0"
+    "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "./app/controllers/controllers.js"
   },
   "repository": {
