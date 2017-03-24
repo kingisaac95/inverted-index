@@ -24,7 +24,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
-    "start": "./app/controllers/controllers.js"
+    "start": "node node_modules/gulp/bin/gulp"
   },
   "repository": {
     "type": "git",
