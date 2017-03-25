@@ -78,7 +78,7 @@
 								<thead>
 									<tr>
 										<th>Words</th>
-										<th ng-repeat="title in currentTitle[indices.fileName]">{{ title }}</th>
+										<th ng-repeat="title in currentTitle[indices.fileName] track by $index">{{ title }}</th>
 									</tr>
 								</thead>
 								<tbody>
