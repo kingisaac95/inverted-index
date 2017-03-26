@@ -68,7 +68,6 @@ app.controller('mainController', ['$scope', ($scope) => {
           tempTitles.push(uploadedFile[key].title);
         });
         $scope.titles[file[i].name] = tempTitles;
-
         $scope.$apply($scope.fileNames.push(file[i].name));
         return toastr.success(`${file[i].name} upload successful`);
       })
@@ -93,14 +92,11 @@ app.controller('mainController', ['$scope', ($scope) => {
   };
 
   $scope.searchIndices = () => {
-    $scope.currentIndices = {};
+    // $scope.currentIndices = {};
     const searchQuery = document.getElementById('search-query').value;
     const filter = document.getElementById('selectedBook').value.trim();
-    $scope.currentIndices = $scope.indices[filter];
 
-    if (searchQuery === '' || searchQuery === undefined
-      || searchQuery === null) {
-      $scope.currentIndices = $scope.indices[filter];
+    if (searchQuery === '') {
       toastr.success('please type in a search query');
     }
     if (filter === 'all') {
