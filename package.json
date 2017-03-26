@@ -29,9 +29,9 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
-    "start": "node server.js",
-    "test": "node node_modules/jasmine/bin/jasmine.js ./public/lib/invertedIndexTests.js",
-    "coverage": "istanbul cover npm test"
+    "start": "node server.js"
+    // "test": "node node_modules/jasmine/bin/jasmine.js ./public/lib/invertedIndexTests.js",
+    // "coverage": "istanbul cover npm test"
   },
   "repository": {
     "type": "git",
