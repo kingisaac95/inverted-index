@@ -8,7 +8,7 @@ const book = require('../../json files/books.json');
 //  book with valid content
 const anotherValidBook = require('../../json files/News.json');
 
-  const invertedIndex = new InvertedIndexClass();
+const invertedIndex = new InvertedIndexClass();
 describe('invertedIndex Index', () => {
   invertedIndex.createIndex('book.json', book);
   invertedIndex.createIndex('anotherValidBook.json', anotherValidBook);

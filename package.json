@@ -21,6 +21,7 @@
     "eslint-config-airbnb-base": "^11.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsdoc": "^2.4.0",
+    "gulp-browserify": "^0.5.1",
     "install": "^0.8.7",
     "istanbul": "^0.4.5",
     "jasmine": "^2.5.3",
@@ -30,8 +31,6 @@
   },
   "scripts": {
     "start": "node server.js"
-    // "test": "node node_modules/jasmine/bin/jasmine.js ./public/lib/invertedIndexTests.js",
-    // "coverage": "istanbul cover npm test"
   },
   "repository": {
     "type": "git",

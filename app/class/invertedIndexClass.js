@@ -13,10 +13,16 @@ class InvertedIndex {
     this.indexedFiles = {};
   }
 
-  readFile(fileToRead) {
-    const fileReader =  new FileReader();
-    // readFiles[filename] = [];
-    fileReader.readAsText(fileToRead);
+  /**
+   * function to read uploaded files
+   * @function
+   * @param {object} file
+   * @returns promise
+  */
+  readFile(file) {
+    const fileReader = new FileReader();
+    fileReader.readAsText(file);
+
     return new Promise((resolve, reject) => {
       fileReader.onload = () => {
         try {
@@ -29,19 +35,22 @@ class InvertedIndex {
   }
 
   /**
-   * genereate indexes
+   * function to genereate indexes from read files
    * @function
-   * @param {Array} bookArray
-   * @param {string} title
-   * @returns {Object} indexes
+   * @param {Array} fileName
+   * @param {string} file
+   * @returns {boolean} returns a boolean
   */
   createIndex(fileName, file) {
     if (!file) { return false; }
+
     const words = [];
     const indexedWords = {};
+
     file.forEach((book) => {
       words.push(this.tokenize(book));
     });
+
     words.forEach((book, index) => {
       for (let i = 0; i < book.length; i += 1) {
         if (!indexedWords.hasOwnProperty(book[i])) {
@@ -50,15 +59,17 @@ class InvertedIndex {
         indexedWords[book[i]].push(index);
       }
     });
+
     if (!this.indices.hasOwnProperty(fileName)) {
       this.indices[fileName] = indexedWords;
     }
+
     this.indexedFiles[fileName] = file.length;
     return true;
   }
 
   /**
-   * fetch indices
+   * function to fetch generated indices
    * @function
    * @param {string} fileName
    * @returns {Object} indices
@@ -72,51 +83,56 @@ class InvertedIndex {
   }
 
   /**
-   * Search Index
+   * function to search through created indices
    * @function
   * @param {String} fileName uploaded valid JSON file
   * @param {String} query word(s) or terms to search for
-  * @returns {Object} Returns result of searched index.
+  * @returns {array} returns array searchResults contained search indices
   */
   searchIndices(fileName, query) {
     const searchResults = [];
     const result = {};
     let indices = {};
+
     if (this.getIndices(fileName)) {
       indices[fileName] = this.getIndices(fileName);
     } else {
       indices = this.indices;
     }
+
     Object.keys(indices).forEach((book) => {
       query.split(' ').forEach((word) => {
         if (Object.prototype.hasOwnProperty.call(indices[book], word)) {
           if (!Object.prototype.hasOwnProperty.call(result, book)) {
             result[book] = {
               terms: {},
-              // count: indices[book].count,
               fileName: book
             };
           }
           result[book].terms[word] = indices[book][word];
         }
       });
+
       searchResults.push(result[book]);
     });
+
     if (typeof searchResults[0] === 'undefined') {
       return false;
     }
+
     return searchResults;
   }
 
 
   /**
-   * runs all validation checks
+   * function to validate user uploaded files
    * @function
    * @param {object} file
    * @returns {boolean} return boolean for all test cases
   */
   validateFile(file) {
     let isValid = file;
+
     if (file.length > 0) {
       for (let i = 0; i < file.length; i += 1) {
         if (file[i] === undefined
@@ -127,6 +143,7 @@ class InvertedIndex {
         }
       }
     } else isValid = false;
+
     return isValid;
   }
 
@@ -145,18 +162,20 @@ class InvertedIndex {
   /**
    * format JSON object joining title and text values together
    * @function
-   * @param {object} document
+   * @param {object} file
    * @returns {array} formatted array
   */
-  formatJSON(document) {
+  formatJSON(file) {
     let text;
     let title;
     let newDoc = [];
-    for (let item in document) {
-      title = document.title;
-      text = document.text;
+
+    for (let item in file) {
+      title = file.title;
+      text = file.text;
       newDoc.push(`${title} ${text}`);
     }
+
     newDoc = newDoc.join(' ');
     return newDoc;
   }
@@ -170,11 +189,13 @@ class InvertedIndex {
   */
   tokenize(text) {
     let tokens = [];
+
     tokens = this.formatJSON(text)
       .trim()
       .toLowerCase()
       .match(/\w+/g)
       .sort();
+
     tokens = this.getUnique(tokens);
     return tokens;
   }

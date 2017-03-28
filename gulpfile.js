@@ -1,8 +1,7 @@
 const gulp = require('gulp');
 const connect = require('gulp-connect');
 const open = require('gulp-open');
-const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
+const browserify = require('gulp-browserify');
 
 const htmlSource = './index.html';
 const cssSource = './app/css/*.css';
@@ -38,12 +37,13 @@ gulp.task('js', () => {
 });
 
 gulp.task('scripts', () => {
+  // Single entry point to browserify
   gulp.src(classSource)
-    .pipe(concat('bundle.js'))
-    .pipe(uglify().on('error', (e) => {
-      console.log(e);
+    .pipe(browserify({
+      insertGlobals: true,
+      debug: !gulp.env.production
     }))
-    .pipe(gulp.dest('./dest'));
+    .pipe(gulp.dest('./build/js'));
 });
 
 gulp.task('watch', () => {
