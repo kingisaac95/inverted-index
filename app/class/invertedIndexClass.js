@@ -17,7 +17,7 @@ class InvertedIndex {
    * function to read uploaded files
    * @function
    * @param {object} file
-   * @returns promise
+   * @returns {Promise}
   */
   readFile(file) {
     const fileReader = new FileReader();
@@ -200,3 +200,5 @@ class InvertedIndex {
     return tokens;
   }
 }
+
+module.exports = InvertedIndex;

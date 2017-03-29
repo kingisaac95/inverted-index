@@ -39,7 +39,7 @@ app.controller('mainController', ['$scope', ($scope) => {
   const validateJSON = (file) => {
     let val = true;
     file.forEach((uploadedFile) => {
-      if (!uploadedFile.hasOwnProperty('text') ||
+      if (!uploadedFile.hasOwnProperty('title') ||
         !uploadedFile.hasOwnProperty('text')) {
         val = false;
         return false;

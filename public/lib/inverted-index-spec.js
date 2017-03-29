@@ -1,18 +1,19 @@
 // const values = require('object.values');
 
 //  book with valid contents
+const InvertedIndexClass = require('../../app/class/invertedIndexClass');
 const book = require('../../json files/books.json');
 //  book with invalid content
 // const invalidTitleAndText = require('../../json files/books copy 3.json');
 //  book with valid content
 const anotherValidBook = require('../../json files/News.json');
 
-const invertedIndex = new InvertedIndex();
-describe('InvertedIndex', () => {
+const invertedIndex = new InvertedIndexClass();
+describe('invertedIndex Index', () => {
   invertedIndex.createIndex('book.json', book);
   invertedIndex.createIndex('anotherValidBook.json', anotherValidBook);
 
-  describe('InvertedIndex class', () => {
+  describe('InvertedIndex class, check all class methods', () => {
     it('should have readFile method', () => {
       expect(typeof invertedIndex.readFile).toBe('function');
     });
@@ -27,6 +28,10 @@ describe('InvertedIndex', () => {
 
     it('should have searchIndices method', () => {
       expect(typeof invertedIndex.searchIndices).toBe('function');
+    });
+
+    it('should have searchIndex method', () => {
+      expect(typeof invertedIndex.searchIndex).toBe('function');
     });
 
     it('should have validateFile method', () => {
@@ -46,11 +51,11 @@ describe('InvertedIndex', () => {
     });
   });
 
-  describe('validateFile should check files', () => {
-    it('should check that the contents of the file to be uploaded is valid',
-    () => {
-      expect(invertedIndex.validateFile(book)).toBeTruthy();
-    });
+//   describe('validateFile should check files', () => {
+//     it('should check that the contents of the file to be uploaded is valid',
+//     () => {
+//       expect(invertedIndex.validateFile(book)).toBeTruthy();
+//     });
 
 //     it('should return false for empty json files', () => {
 //       expect(invertedIndex.validateFile(emptyJSON)).toBeFalsy();
