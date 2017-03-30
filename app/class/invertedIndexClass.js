@@ -200,5 +200,3 @@ class InvertedIndex {
     return tokens;
   }
 }
-
-module.exports = InvertedIndex;

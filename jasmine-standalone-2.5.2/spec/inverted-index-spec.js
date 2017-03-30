@@ -46,11 +46,12 @@ describe('InvertedIndex', () => {
     });
   });
 
-  describe('validateFile should check files', () => {
-    it('should check that the contents of the file to be uploaded is valid',
-    () => {
-      expect(invertedIndex.validateFile(book)).toBeTruthy();
-    });
+  // describe('validateFile should check files', () => {
+  //   it('should check that the contents of the file to be uploaded is valid',
+  //   () => {
+  //     expect(invertedIndex.validateFile(book)).toBeTruthy();
+  //   });
+  // });
 
 //     it('should return false for empty json files', () => {
 //       expect(invertedIndex.validateFile(emptyJSON)).toBeFalsy();

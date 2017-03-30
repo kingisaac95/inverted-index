@@ -39,8 +39,7 @@ gulp.task('js', () => {
 });
 
 gulp.task('scripts', () => {
-  gulp.src(['./app/class/invertedIndexClass.js', './jasmine-standalone-2.5.2/spec/inverted-index-spec.js'])
-    .pipe(concat('main.js'))
+  gulp.src(['./jasmine-standalone-2.5.2/spec/inverted-index-spec.js'])
     .pipe(browserify())
     .pipe(rename('bundle.js'))
     .pipe(gulp.dest('./jasmine-standalone-2.5.2/build'));

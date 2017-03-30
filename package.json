@@ -33,13 +33,17 @@
     "karma": "^1.5.0",
     "karma-browserify": "^5.1.1",
     "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-coveralls": "^1.1.2",
     "karma-jasmine": "^1.1.0",
     "npm": "^4.4.1",
     "object.values": "^1.0.4",
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "karma start --single-run",
+    "coverage": "istanbul cover npm test"
   },
   "repository": {
     "type": "git",
