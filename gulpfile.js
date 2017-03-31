@@ -3,7 +3,6 @@ const connect = require('gulp-connect');
 const open = require('gulp-open');
 const browserify = require('gulp-browserify');
 const rename = require('gulp-rename');
-const concat = require('gulp-concat');
 const Server = require('karma').Server;
 
 const htmlSource = './index.html';
