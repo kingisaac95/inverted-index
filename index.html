@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="invertedIndex">
+	<head>
+		<title>Inverted Index | Home</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href ="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+	  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	  <link rel="stylesheet" href="./app/css/styles.css">
+	</head>
+	
+	<body ng-controller="mainController">
+		<nav class="navbar navbar-inverse" role="navigation" style="border-radius: 0">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">dex<span class="text-warning">I</span>t</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a href="" data-toggle="modal" data-target="#about">What is this?</a></li>
+						<li><a href="" data-toggle="modal" data-target="#help">Usage guide</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!--<button class="btn btn-primary" ng-click="createIndex()">Get index</button>-->
+
+		<div class="container">
+			<div class="jumbotron text-center">
+				<h3>Hi, welcome to <span class="text-success">dex<span class="text-warning">I</span>t</span>,
+				  please upload a file to continue</h3>
+				<h5 class="text-warning">Note: Please make sure to upload a valid JSON file (See Usage Guide)</h5>
+				<label href="#" class="btn btn-success"><i class="fa fa-upload"></i> 
+				  Upload file<input type="file" id="file-input" style="display: none" multiple>
+			    </label>
+			</div>
+			<div class="row">
+				<div class="col-md-4 text-center">
+					<h4 class="text-success">File upload details</h4>
+					<div class="col-md-12" style="margin-bottom: 20px">
+							<form class="form">
+										<!--<p class="text-warning">Please select a file to index.</p>-->
+										<div class="input-group input-sm">
+											<select class="form-control select-option" id="selectedFile">
+														<option selected disabled>-- select a file to index --</option>
+														<option ng-repeat="file in fileNames" > {{ file }} </option>
+											</select>
+											<span class="input-group-btn">
+												<button id="getIndex" type="submit" class="btn btn-success" ng-click="createIndex()">Get Index</button>
+											</span>
+									</div>
+							</form>
+					</div>
+
+					<h4 class="text-success">Search indices</h4>
+					<!--<p class="text-warning">Please select a file to search.</p>-->
+					<div class="col-md-12">
+						<form class="form" role="search">
+							<select class="form-control" style="width: 100%" id="selectedBook">
+								<option value="all" selected>All</option>
+								<option ng-repeat="(file, value) in indices"> {{ file }} </option>
+							</select>
+							<h1></h1>
+							<input class="form-control" placeholder="Search" id="search-query"
+							type="text" style="width: 100%" ng-keyup="searchIndices()" ng-if="show">
+						</form>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<h3 class="text-center"><i class="fa fa-table" aria-hidden="true"></i> Table of Indices</h3>
+						<div style="height: 350px; overflow: auto;">
+							<table ng-repeat="indices in currentIndices track by $index" class="table table-striped table-hover table-bordered" ng-if="show">
+								<thead>
+									<tr>
+										<th>Words</th>
+										<th ng-repeat="title in currentTitle[indices.fileName] track by $index">{{ title }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="(key, index) in indices.terms track by $index">
+										<td> {{ key }} </td>
+										<td ng-repeat="value in range(currentTitle[indices.fileName].length - 1) track by $index">
+											<span>
+												<span><i ng-class="index.includes(value) ? 'fa-check text-success' : 'fa-close text-danger'" class="fa" aria-hidden="true"></i></span>
+											</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>
+			</div>
+
+			<!-- Modal What is this -->
+			<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header bg-success">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Inverted Index</h4>
+						</div>
+						<div class="modal-body">
+							
+							<h4 class="text-success">Elasticsearch</h4>
+							<p>Elasticsearch uses a structure called an inverted index, which is designed to allow very fast full-text searches. An inverted index consists of a list of all the unique words that appear in any document, and for each word, a list of the documents in which it appears.
+							For example, let’s say we have two documents, each with a content field containing the following:</p>
+							<ol type="1">
+								<li>The quick brown fox jumped over the lazy dog</li>
+								<li>uick brown foxes leap over lazy dogs in summer</li>
+							</ol>
+							<p>create an inverted index, we first split the content field of each document into separate words (which we call terms, or tokens), create a sorted list of all the unique terms, and then list in which document each term appears. The result looks something like this:</p>
+<pre>
+Term      Doc_1  Doc_2
+-------------------------
+Quick   |       |  X
+The     |   X   |
+brown   |   X   |  X
+dog     |   X   |
+dogs    |       |  X
+fox     |   X   |
+foxes   |       |  X
+in      |       |  X
+jumped  |   X   |
+lazy    |   X   |  X
+leap    |       |  X
+over    |   X   |  X
+quick   |   X   |
+summer  |       |  X
+the     |   X   |
+------------------------
+</pre>						
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success" data-dismiss="modal">Gotten!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal Hep -->
+			<div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header bg-success">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Inverted Index - Usage guide</h4>
+						</div>
+						<div class="modal-body">
+							<h4 class="text-success">How to use</h4>
+							<ol type="1">
+								<li>Upload JSON file by clicking "Upload file" button and selecting a valid JSON in your disposition</li>
+								<li>In the left corner under "File upload details", select file to index and click on "Get Index"</li>
+								<li>In the left corner under "Search indices", select the file to search or select "All" to search all 
+									indexed filed, the type in your search word(s) in the search field.</li>
+							</ol>
+							
+							<h4 class="text-success">Valid Document Structure</h4>
+							<p>A valid JSON file for testing this application must be structured similar to the document below:</p>
+<pre>
+[
+  {
+    "title": "Alice in Wonderland",
+    "text": "Alice falls into a rabbit hole and enters a world full of imagination."
+  }
+]
+</pre>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success" data-dismiss="modal">Gotten!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid bg-success padded" style="margin-top: 40px">
+			<div class="footer text-center">
+				<p class="footer-text">&copy; 2017 dex<span class="text-warning">I</span>t</span> - Inverted Index Application</p>
+			</div>
+		</div>
+
+		<script src="https://code.angularjs.org/1.5.1/angular.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+		<script src="app/class/invertedIndexClass.js"></script>
+		<script src="app/controllers/controller.js"></script>
+	</body>
+</html>
