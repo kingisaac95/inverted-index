@@ -39,8 +39,8 @@ app.controller('mainController', ['$scope', ($scope) => {
   const validateJSON = (file) => {
     let val = true;
     file.forEach((uploadedFile) => {
-      if (!uploadedFile.hasOwnProperty('title') ||
-        !uploadedFile.hasOwnProperty('text')) {
+      if (!Object.prototype.hasOwnProperty.call(uploadedFile, 'title') ||
+        !Object.prototype.hasOwnProperty.call(uploadedFile, 'text')) {
         val = false;
         return false;
       }
@@ -56,7 +56,7 @@ app.controller('mainController', ['$scope', ($scope) => {
       if ($scope.fileNames.indexOf(file[i].name) !== -1) {
         return toastr.info(`${file[i].name} already uploaded!`);
       }
-      invertedIndex.readFile(file[i])
+      InvertedIndex.readFile(file[i])
       .then((uploadedFile) => {
         if (!validateJSON(uploadedFile)) {
           toastr.error('invalid file structure');
@@ -88,7 +88,7 @@ app.controller('mainController', ['$scope', ($scope) => {
     $scope.currentIndices[0].terms = $scope.indices[fileName];
     $scope.currentIndices[0].fileName = fileName;
     $scope.show = true;
-    return toastr.success(`${selectedFile.value} index created`);
+    return toastr.success(`${fileName} index created`);
   };
 
   $scope.searchIndices = () => {

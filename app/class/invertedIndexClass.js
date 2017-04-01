@@ -17,9 +17,9 @@ class InvertedIndex {
    * function to read uploaded files
    * @function
    * @param {object} file
-   * @returns {Promise}
+   * @returns {Promise} promise
   */
-  readFile(file) {
+  static readFile(file) {
     const fileReader = new FileReader();
     fileReader.readAsText(file);
 
@@ -46,24 +46,22 @@ class InvertedIndex {
 
     const words = [];
     const indexedWords = {};
-
     file.forEach((book) => {
-      words.push(this.tokenize(book));
+      words.push(InvertedIndex.tokenize(book));
     });
 
     words.forEach((book, index) => {
       for (let i = 0; i < book.length; i += 1) {
-        if (!indexedWords.hasOwnProperty(book[i])) {
+        if (!Object.prototype.hasOwnProperty.call(indexedWords, book[i])) {
           indexedWords[book[i]] = [];
         }
         indexedWords[book[i]].push(index);
       }
     });
 
-    if (!this.indices.hasOwnProperty(fileName)) {
+    if (!Object.prototype.hasOwnProperty.call(this.indices, fileName)) {
       this.indices[fileName] = indexedWords;
     }
-
     this.indexedFiles[fileName] = file.length;
     return true;
   }
@@ -75,9 +73,6 @@ class InvertedIndex {
    * @returns {Object} indices
   */
   getIndices(fileName) {
-    if (Object.keys(fileName) === 0) {
-      return false;
-    }
     return typeof fileName === 'undefined'
     || typeof fileName !== 'string' ? this.indices : this.indices[fileName];
   }
@@ -119,7 +114,6 @@ class InvertedIndex {
     if (typeof searchResults[0] === 'undefined') {
       return false;
     }
-
     return searchResults;
   }
 
@@ -130,7 +124,7 @@ class InvertedIndex {
    * @param {object} file
    * @returns {boolean} return boolean for all test cases
   */
-  validateFile(file) {
+  static validateFile(file) {
     let isValid = file;
 
     if (file.length > 0) {
@@ -153,10 +147,8 @@ class InvertedIndex {
    * @param {array} array
    * @returns {array} array equivalent with unique items
   */
-  getUnique(array) {
-    return array.filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    });
+  static getUnique(array) {
+    return array.filter((value, index, self) => self.indexOf(value) === index);
   }
 
   /**
@@ -165,16 +157,21 @@ class InvertedIndex {
    * @param {object} file
    * @returns {array} formatted array
   */
-  formatJSON(file) {
+  static formatJSON(file) {
     let text;
     let title;
     let newDoc = [];
 
-    for (let item in file) {
+    Object.keys(file).forEach(() => {
       title = file.title;
       text = file.text;
       newDoc.push(`${title} ${text}`);
-    }
+    });
+    // for (let item in file) {
+    //   title = file.title;
+    //   text = file.text;
+    //   newDoc.push(`${title} ${text}`);
+    // }
 
     newDoc = newDoc.join(' ');
     return newDoc;
@@ -187,16 +184,16 @@ class InvertedIndex {
    * @param {string} text document title and text
    * @returns {Array} tokens
   */
-  tokenize(text) {
+  static tokenize(text) {
     let tokens = [];
 
-    tokens = this.formatJSON(text)
+    tokens = InvertedIndex.formatJSON(text)
       .trim()
       .toLowerCase()
       .match(/\w+/g)
       .sort();
 
-    tokens = this.getUnique(tokens);
+    tokens = InvertedIndex.getUnique(tokens);
     return tokens;
   }
 }

@@ -12,6 +12,7 @@
     "gulp-connect": "^5.0.0",
     "gulp-open": "^2.0.0",
     "gulp-uglify": "^2.1.2",
+    "jasmine-expect": "^3.7.0",
     "object.values": "^1.0.4",
     "path": "^0.12.7"
   },
