@@ -16,7 +16,7 @@ describe('InvertedIndex', () => {
 
   describe('InvertedIndex class', () => {
     it('should have readFile method', () => {
-      expect(typeof invertedIndex.readFile).toBe('function');
+      expect(typeof InvertedIndex.readFile).toBe('function');
     });
 
     it('should have createIndex method', () => {
@@ -32,54 +32,54 @@ describe('InvertedIndex', () => {
     });
 
     it('should have validateFile method', () => {
-      expect(typeof invertedIndex.validateFile).toBe('function');
+      expect(typeof InvertedIndex.validateFile).toBe('function');
     });
 
     it('should have getUnique method', () => {
-      expect(typeof invertedIndex.getUnique).toBe('function');
+      expect(typeof InvertedIndex.getUnique).toBe('function');
     });
 
     it('should have formatJSON method', () => {
-      expect(typeof invertedIndex.formatJSON).toBe('function');
+      expect(typeof InvertedIndex.formatJSON).toBe('function');
     });
 
     it('should have tokenize method', () => {
-      expect(typeof invertedIndex.tokenize).toBe('function');
+      expect(typeof InvertedIndex.tokenize).toBe('function');
     });
   });
 
   describe('validateFile', () => {
     it('should check that the contents of the file to be uploaded is valid',
     () => {
-      expect(invertedIndex.validateFile(book)).toBeTruthy();
+      expect(InvertedIndex.validateFile(book)).toBeTruthy();
     });
 
     it('should return false for empty json files', () => {
-      expect(invertedIndex.validateFile(emptyJsonFile)).toBeFalsy();
+      expect(InvertedIndex.validateFile(emptyJsonFile)).toBeFalsy();
     });
 
     it('should return true if file has property "title" and "text" ', () => {
-      expect(invertedIndex.validateFile(book)).toBeTruthy();
+      expect(InvertedIndex.validateFile(book)).toBeTruthy();
     });
 
     it('should return false if file does not have property "title" and "text"',
      () => {
-       expect(invertedIndex.validateFile(invalidTitleAndText)).toBeFalsy();
+       expect(InvertedIndex.validateFile(invalidTitleAndText)).toBeFalsy();
      });
 
     it('should return false if file is not an array of JSON object',
      () => {
-       expect(invertedIndex.validateFile(notArray)).toBeFalsy();
+       expect(InvertedIndex.validateFile(notArray)).toBeFalsy();
      });
 
     it('should return false if file is an empty array',
      () => {
-       expect(invertedIndex.validateFile(emptyArrayFile)).toBeFalsy();
+       expect(InvertedIndex.validateFile(emptyArrayFile)).toBeFalsy();
      });
 
     it('should return false if file is a JSON but not an array of an array',
      () => {
-       expect(invertedIndex.validateFile(invalid)).toBeFalsy();
+       expect(InvertedIndex.validateFile(invalid)).toBeFalsy();
      });
   });
 
