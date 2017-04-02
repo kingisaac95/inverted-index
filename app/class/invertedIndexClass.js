@@ -49,6 +49,7 @@ class InvertedIndex {
     file.forEach((book) => {
       words.push(InvertedIndex.tokenize(book));
     });
+    console.log(words);
 
     words.forEach((book, index) => {
       for (let i = 0; i < book.length; i += 1) {
@@ -81,10 +82,10 @@ class InvertedIndex {
    * function to search through created indices
    * @function
   * @param {String} fileName uploaded valid JSON file
-  * @param {String} query word(s) or terms to search for
+  * @param {String} searchTerms word(s) or terms to search for
   * @returns {array} returns array searchResults contained search indices
   */
-  searchIndices(fileName, query) {
+  searchIndices(fileName, searchTerms) {
     const searchResults = [];
     const result = {};
     let indices = {};
@@ -96,7 +97,7 @@ class InvertedIndex {
     }
 
     Object.keys(indices).forEach((book) => {
-      query.split(' ').forEach((word) => {
+      searchTerms.split(' ').forEach((word) => {
         if (Object.prototype.hasOwnProperty.call(indices[book], word)) {
           if (!Object.prototype.hasOwnProperty.call(result, book)) {
             result[book] = {
@@ -144,11 +145,11 @@ class InvertedIndex {
   /**
    * remove duplicates from word array
    * @function
-   * @param {array} array
+   * @param {array} wordArray
    * @returns {array} array equivalent with unique items
   */
-  static getUnique(array) {
-    return array.filter((value, index, self) => self.indexOf(value) === index);
+  static getUnique(wordArray) {
+    return wordArray.filter((value, index, self) => self.indexOf(value) === index);
   }
 
   /**
@@ -167,11 +168,6 @@ class InvertedIndex {
       text = file.text;
       newDoc.push(`${title} ${text}`);
     });
-    // for (let item in file) {
-    //   title = file.title;
-    //   text = file.text;
-    //   newDoc.push(`${title} ${text}`);
-    // }
 
     newDoc = newDoc.join(' ');
     return newDoc;

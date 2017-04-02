@@ -9,7 +9,8 @@
   },
   "globals": {
     "toastr": true,
-    "expect": true
+    "expect": true,
+    "InvertedIndex": true
   },
   "rules": {
     "max-len":[1, 80, 2],

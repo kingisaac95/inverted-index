@@ -84,8 +84,12 @@ describe('InvertedIndex', () => {
   });
 
   describe('createIndex', () => {
-    it('should return a msg if index is not created', () => {
+    it('should return false if index is not created', () => {
       expect(invertedIndex.createIndex(invalid)).toEqual(false);
+    });
+
+    it('should return true if index is created', () => {
+      expect(invertedIndex.createIndex('books.json', book)).toEqual(true);
     });
   });
 
