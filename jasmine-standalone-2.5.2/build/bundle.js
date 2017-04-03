@@ -11,6 +11,7 @@ const invalidTitleAndText = require('../../json files/books copy 3.json');
 const anotherBook = require('../../json files/anotherBook.json');
 
 const invertedIndex = new InvertedIndex();
+
 describe('InvertedIndex', () => {
   invertedIndex.createIndex('books.json', book);
   invertedIndex.createIndex('anotherBook.json', anotherBook);
@@ -82,6 +83,19 @@ describe('InvertedIndex', () => {
      () => {
        expect(InvertedIndex.validateFile(invalid)).toBeFalsy();
      });
+  });
+
+  describe('Tokenize words', () => {
+    it('should check that tokens are split and in sorted order', () => {
+      let test =
+        {
+          title: 'Alice in Wonderland',
+          text: 'Falls into a hole.'
+        };
+      const tokens = ['a', 'alice', 'falls', 'hole', 'in', 'into', 'wonderland'];
+      test = InvertedIndex.tokenize(test);
+      expect(tokens).toEqual(test);
+    });
   });
 
   describe('createIndex', () => {

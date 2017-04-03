@@ -49,7 +49,6 @@ class InvertedIndex {
     file.forEach((book) => {
       words.push(InvertedIndex.tokenize(book));
     });
-    console.log(words);
 
     words.forEach((book, index) => {
       for (let i = 0; i < book.length; i += 1) {
@@ -171,7 +170,7 @@ class InvertedIndex {
 
     newDoc = newDoc.join(' ');
     return newDoc;
-  }
+}
 
   /**
    * trim, remove special characters, white spaces and special characters

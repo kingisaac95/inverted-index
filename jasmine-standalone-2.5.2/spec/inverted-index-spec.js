@@ -84,6 +84,19 @@ describe('InvertedIndex', () => {
      });
   });
 
+  describe('Tokenize words', () => {
+    it('should check that tokens are split and in sorted order', () => {
+      let test =
+        {
+          title: 'Alice in Wonderland',
+          text: 'Falls into a hole.'
+        };
+      const tokens = ['a', 'alice', 'falls', 'hole', 'in', 'into', 'wonderland'];
+      test = InvertedIndex.tokenize(test);
+      expect(tokens).toEqual(test);
+    });
+  });
+
   describe('createIndex', () => {
     it('should return false if index is not created', () => {
       expect(invertedIndex.createIndex(invalid)).toEqual(false);
