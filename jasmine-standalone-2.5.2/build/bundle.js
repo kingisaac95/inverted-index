@@ -92,7 +92,8 @@ describe('InvertedIndex', () => {
           title: 'Alice in Wonderland',
           text: 'Falls into a hole.'
         };
-      const tokens = ['a', 'alice', 'falls', 'hole', 'in', 'into', 'wonderland'];
+      const tokens =
+        ['a', 'alice', 'falls', 'hole', 'in', 'into', 'wonderland'];
       test = InvertedIndex.tokenize(test);
       expect(tokens).toEqual(test);
     });

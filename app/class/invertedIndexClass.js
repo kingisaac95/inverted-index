@@ -148,7 +148,8 @@ class InvertedIndex {
    * @returns {array} array equivalent with unique items
   */
   static getUnique(wordArray) {
-    return wordArray.filter((value, index, self) => self.indexOf(value) === index);
+    return wordArray.filter((value, index, self) =>
+      self.indexOf(value) === index);
   }
 
   /**
@@ -170,7 +171,7 @@ class InvertedIndex {
 
     newDoc = newDoc.join(' ');
     return newDoc;
-}
+  }
 
   /**
    * trim, remove special characters, white spaces and special characters
