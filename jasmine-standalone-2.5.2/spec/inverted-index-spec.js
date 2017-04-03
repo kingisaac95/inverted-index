@@ -10,6 +10,7 @@ const invalidTitleAndText = require('../../json files/books copy 3.json');
 const anotherBook = require('../../json files/anotherBook.json');
 
 const invertedIndex = new InvertedIndex();
+
 describe('InvertedIndex', () => {
   invertedIndex.createIndex('books.json', book);
   invertedIndex.createIndex('anotherBook.json', anotherBook);
