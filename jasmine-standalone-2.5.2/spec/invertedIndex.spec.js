@@ -88,21 +88,6 @@ describe('InvertedIndex', () => {
     it('should be defined', () => {
       expect(InvertedIndex.readFile).not.toBeUndefined();
     });
-
-    it('should read a file', () => {
-      beforeEach(() => {
-        const eventListener = jasmine.createSpy();
-        const dummyFileReader = { addEventListener: eventListener };
-        spyOn(window, 'FileReader').and.returnValue(dummyFileReader);
-      });
-      const reader = new FileReader();
-      reader.addEventListener('load', (e) => {
-        const fileRead = reader.result;
-        expect(fileRead).toBeTruthy();
-        expect(JSON.parse(fileRead) instanceof Object).toBeTruthy();
-        done();
-      });
-    });
   });
 
   describe('Tokenize words', () => {
