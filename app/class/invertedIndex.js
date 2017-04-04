@@ -83,6 +83,7 @@ class InvertedIndex {
   * @param {String} fileName uploaded valid JSON file
   * @param {String} searchTerms word(s) or terms to search for
   * @returns {array} returns array searchResults contained search indices
+  * @returns {boolean} returns false if search query was not found
   */
   searchIndices(fileName, searchTerms) {
     const searchResults = [];
