@@ -1,18 +1,18 @@
 const values = require('object.values');
 
 //  import test books
-const book = require('../../json files/books.json');
+const books = require('../../json files/books.json');
 const emptyJsonFile = require('../../json files/emptyJsonFile.json');
 const emptyArrayFile = require('../../json files/emptyArrayFile.json');
 const invalidFile = require('../../json files/invalidFile.json');
 const notArray = require('../../json files/notArray.json');
-const invalidTitleAndText = require('../../json files/books copy 3.json');
+const booksCopy3 = require('../../json files/booksCopy3.json');
 const anotherBook = require('../../json files/anotherBook.json');
 
 const invertedIndex = new InvertedIndex();
 
 describe('InvertedIndex', () => {
-  invertedIndex.createIndex('books.json', book);
+  invertedIndex.createIndex('books.json', books);
   invertedIndex.createIndex('anotherBook.json', anotherBook);
 
   describe('InvertedIndex class', () => {
@@ -52,7 +52,7 @@ describe('InvertedIndex', () => {
   describe('validateFile', () => {
     it('should check that the contents of the file to be uploaded is valid',
     () => {
-      expect(InvertedIndex.validateFile(book)).toBeTruthy();
+      expect(InvertedIndex.validateFile(books)).toBeTruthy();
     });
 
     it('should return false for empty json files', () => {
@@ -60,12 +60,12 @@ describe('InvertedIndex', () => {
     });
 
     it('should return true if file has property "title" and "text" ', () => {
-      expect(InvertedIndex.validateFile(book)).toBeTruthy();
+      expect(InvertedIndex.validateFile(books)).toBeTruthy();
     });
 
     it('should return false if file does not have property "title" and "text"',
      () => {
-       expect(InvertedIndex.validateFile(invalidTitleAndText)).toBeFalsy();
+       expect(InvertedIndex.validateFile(booksCopy3)).toBeFalsy();
      });
 
     it('should return false if file is not an array of JSON object',
@@ -108,10 +108,10 @@ describe('InvertedIndex', () => {
     it('should return an array of text and title joined together', () => {
       let test =
         {
-          title: 'Alice in Wonderland',
-          text: 'Falls into a hole.'
+          title: 'Alice',
+          text: 'falls into a hole.'
         };
-      const newDoc = 'Alice in Wonderland Falls into a hole. Alice in Wonderland Falls into a hole.';
+      const newDoc = 'Alice falls into a hole. Alice falls into a hole.';
       test = InvertedIndex.formatJSON(test);
       expect(newDoc).toEqual(test);
     });
@@ -132,7 +132,7 @@ describe('InvertedIndex', () => {
     });
 
     it('should return true if index is created', () => {
-      expect(invertedIndex.createIndex('books.json', book)).toEqual(true);
+      expect(invertedIndex.createIndex('books.json', books)).toEqual(true);
     });
   });
 
@@ -142,8 +142,8 @@ describe('InvertedIndex', () => {
       .toBeGreaterThan(0);
     });
 
-    it('should check that index maps the string to the correct objects in json'
-     + ' array', () => {
+    it(`should check that index maps the string to
+      the correct objects in json array`, () => {
       const createdIndex = {
         a: [0],
         alice: [0],
@@ -171,7 +171,7 @@ describe('InvertedIndex', () => {
     it('should return true if search term is a string', () => {
       const words = 'I love Barbie and Alice';
       expect(Object.keys(invertedIndex.searchIndices(words,
-        'book.json'))).toBeTruthy();
+        'books.json'))).toBeTruthy();
     });
 
     it('should return true if search term is a array', () => {
@@ -181,7 +181,7 @@ describe('InvertedIndex', () => {
     });
 
     it('should return false if search term is not found', () => {
-      invertedIndex.createIndex('books.json', book);
+      invertedIndex.createIndex('books.json', books);
       const result = invertedIndex.searchIndices('alicce', 'books.json');
       expect(result).toEqual(false);
     });
@@ -229,9 +229,8 @@ describe('InvertedIndex', () => {
         };
 
       let search = {};
-      search = invertedIndex.searchIndices('all',
-        'Barbie loves cartoons but she\'s scared of an unusual wizard,' +
-          'alice fall\'s');
+      search = invertedIndex.searchIndices('all', `Barbie loves cartoons
+        but she's scared of an unusual wizard, alice fall's`);
       expect(Object.keys(search)).toEqual(Object.keys(allFiles));
       expect(values(allFiles)).toEqual(values(allFiles));
     });
