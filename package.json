@@ -44,7 +44,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "gulp scripts && karma start my-dexit.conf.js --single-run",
+    "test": "karma start my-dexit.conf.js --single-run",
     "coverage": "istanbul cover npm test"
   },
   "repository": {
