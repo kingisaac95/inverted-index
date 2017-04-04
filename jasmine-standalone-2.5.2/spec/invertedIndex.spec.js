@@ -4,7 +4,7 @@ const values = require('object.values');
 const book = require('../../json files/books.json');
 const emptyJsonFile = require('../../json files/emptyJsonFile.json');
 const emptyArrayFile = require('../../json files/emptyArrayFile.json');
-const invalid = require('../../json files/invalidFile.json');
+const invalidFile = require('../../json files/invalidFile.json');
 const notArray = require('../../json files/notArray.json');
 const invalidTitleAndText = require('../../json files/books copy 3.json');
 const anotherBook = require('../../json files/anotherBook.json');
@@ -80,7 +80,7 @@ describe('InvertedIndex', () => {
 
     it('should return false if file is a JSON but not an array of an array',
      () => {
-       expect(InvertedIndex.validateFile(invalid)).toBeFalsy();
+       expect(InvertedIndex.validateFile(invalidFile)).toBeFalsy();
      });
   });
 
@@ -106,7 +106,7 @@ describe('InvertedIndex', () => {
 
   describe('createIndex', () => {
     it('should return false if index is not created', () => {
-      expect(invertedIndex.createIndex(invalid)).toEqual(false);
+      expect(invertedIndex.createIndex(invalidFile)).toEqual(false);
     });
 
     it('should return true if index is created', () => {
