@@ -16,7 +16,7 @@ engines:
 ratings:
   paths:
     - "app/controllers/controller.js"
-    - "app/class/invertedIndexClass.js"
+    - "app/class/invertedIndex.js"
     - "jasmine-standalone-2.5.2/spec/inverted-index-spec.js"
 languages:
   JavaScript: true

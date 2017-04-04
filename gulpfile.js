@@ -58,7 +58,7 @@ gulp.task('watch', () => {
   gulp.watch(htmlSource, ['html']);
   gulp.watch(cssSource, ['css']);
   gulp.watch(jsSource, ['js']);
-  gulp.watch('./app/class/invertedIndexClass.js', ['scripts']);
+  gulp.watch('./app/class/invertedIndex.js', ['scripts']);
   gulp.watch('./jasmine-standalone-2.5.2/spec/invertedIndex.spec.js',
     ['scripts']);
   gulp.watch('./jasmine-standalone-2.5.2/build/bundle.js', ['test']);
