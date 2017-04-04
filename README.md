@@ -27,17 +27,23 @@ When the app is installed, follow the guide below to use InvertedIndex App
 
 You should have the following technologies installed to use the app
 
-```node```
+```
+node
+```
 
 #### Installing
 
 To clone the repo, run the following command
 
-```git clone https://github.com/andela-korjiewuru/inverted-index.git```
+```
+git clone https://github.com/andela-korjiewuru/inverted-index.git
+```
 
 #### Install the project dependencies
 
-```npm install```
+```
+npm install
+```
 
 #### Running the App
 
@@ -47,7 +53,9 @@ node server
 
 To run the test, run the following command
 
-```npm test```
+```
+npm test
+```
 
 #### Author
 
