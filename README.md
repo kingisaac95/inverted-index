@@ -56,6 +56,12 @@ To run the test, run the following command
 npm test
 ```
 
+#### Limitations
+
+This application has a few limitations.
+* You can only search through one or all files. Currently the user cannot decide to search through a group of select file out of all indexed files.
+* When a user searches through all files, the name of the book does not appear alongside the tables, rather the tables are arranged in the order with which the indices are created.
+
 #### Author
 
 Orjiewuru Kingdom Isaac
