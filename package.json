@@ -1,0 +1,60 @@
+{
+  "name": "inverted-index",
+  "version": "1.0.0",
+  "description": "Inverted index application using elastic search",
+  "main": "index.js",
+  "dependencies": {
+    "browser-sync": "^2.18.8",
+    "browserify": "^2.3.0",
+    "express": "^4.15.2",
+    "file-api": "^0.10.4",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-open": "^2.0.0",
+    "gulp-uglify": "^2.1.2",
+    "jasmine-expect": "^3.7.0",
+    "object.values": "^1.0.4",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "coveralls": "^2.12.0",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsdoc": "^2.4.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-rename": "^1.2.2",
+    "install": "^0.8.7",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.5.3",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.5.0",
+    "karma-browserify": "^5.1.1",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-coveralls": "^1.1.2",
+    "karma-jasmine": "^1.1.0",
+    "npm": "^4.4.1",
+    "object.values": "^1.0.4",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "karma start my-dexit.conf.js --single-run",
+    "coverage": "istanbul cover npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-korjiewuru/inverted-index.git"
+  },
+  "keywords": [],
+  "author": "Orjiewuru Kingdom Isaac",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela-korjiewuru/inverted-index/issues"
+  },
+  "homepage": "https://github.com/andela-korjiewuru/inverted-index#readme"
+}

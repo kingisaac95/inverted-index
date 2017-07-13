@@ -1,0 +1,36 @@
+engines:
+  duplications:
+    enabled: false
+    config:
+      languages:
+        #mass_threshold: 30
+        - javascript
+  eslint:
+    enabled: true
+    # ... CONFIG CONTENT ...
+    checks:
+      comma-dangle:
+        enabled: false
+  fixme:
+    enabled: true
+ratings:
+  paths:
+    - "app/controllers/controller.js"
+    - "app/class/invertedIndex.js"
+    - "jasmine-standalone-2.5.2/spec/inverted-index-spec.js"
+languages:
+  JavaScript: true
+exclude_paths:
+- "app/css"
+- "public/lib/"
+- "coverage/"
+- "json files/"
+- .gitignore
+- .eslintignore
+- .travis.yml
+- .eslintrc.json
+- "jasmine-standalone-2.5.2/build"
+- "jasmine-standalone-2.5.2/lib"
+- "jasmine-standalone-2.5.2/MIT.LICENSE"
+- "jasmine-standalone-2.5.2/SpecRunner.html"
+- "server.js"
