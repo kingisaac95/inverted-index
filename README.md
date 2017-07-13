@@ -6,6 +6,8 @@
 
 [dexIt](https://my-dexit.herokuapp.com/)
 
+<img width="1280" alt="screen shot 2017-07-13 at 8 42 13 am" src="https://user-images.githubusercontent.com/26261917/28155657-85e04cc8-67a7-11e7-90c3-83ec51e8dfbc.png">
+
 dexIt enables you to upload your JSON array files, create an index map of words in to the corresponding JSON document in the array, and perform search on the words present.
 
 #### Using the App
